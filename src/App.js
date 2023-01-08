@@ -1,30 +1,29 @@
-import './App.css'
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
-// page components
-import Navbar from './components/Navbar'
-import Create from './pages/create/create'
-import Home from './pages/home/home'
-import Recipe from './pages/recipe/recipe'
-import Search from './pages/search/search'
-import ThemeSelector from './components/ThemeSelector'
-import {useTheme} from './hooks/useTheme'
-
+import { BrowserRouter, Routes, Route, Redirect, Navigate  } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./home/Home";
+import { useAuthContext } from "./hooks/useAuthContext";
+import Login from "./login/Login";
+import Signup from "./signup/Signup";
 function App() {
-  const { mode } = useTheme()
+  // we use auth_is_ready to esure that our app doesn't load 
+  //until an authentication of the user is ready either null(logged out) or logged in
+  const { auth_is_ready, user } = useAuthContext()
   return (
-    <div className={`App ${mode}`}>
-      <BrowserRouter>
-        <Navbar />
-        <ThemeSelector />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/create' element={<Create />} />
-          <Route path='/recipe/:id' element={<Recipe />} />
-          <Route path='/search' element={<Search />} />
-        </Routes>
-      </BrowserRouter>
+    <div className="App">
+      {(auth_is_ready && 
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route
+             path="/"
+              element={!user ? (<Navigate replace to='/login' />) : (<Home />)} />
+            <Route path="/signup" element={user ? (<Navigate replace to='/' />) : (<Signup />) } />
+            <Route path="/login" element={user ? (<Navigate replace to='/' />) : (<Login />)} />
+          </Routes>
+        </BrowserRouter>
+      )}
     </div>
   );
 }
 
-export default App
+export default App;

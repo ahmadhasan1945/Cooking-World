@@ -1,19 +1,21 @@
-import firebase from 'firebase/app'
+import firebase from "firebase/app"
 import 'firebase/firestore'
+import 'firebase/auth'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD0Bf3kBenDgsQg5LO853Zzv4_eo5kH72Q",
-    authDomain: "cooking-world-93d81.firebaseapp.com",
-    projectId: "cooking-world-93d81",
-    storageBucket: "cooking-world-93d81.appspot.com",
-    messagingSenderId: "535375055981",
-    appId: "1:535375055981:web:a9eae8d4e819f83518c364"
+    apiKey: "AIzaSyARSAK-kKHrOvQDEVKUcYD_fUXXsIwnwUI",
+    authDomain: "financetracker-4829a.firebaseapp.com",
+    projectId: "financetracker-4829a",
+    storageBucket: "financetracker-4829a.appspot.com",
+    messagingSenderId: "933434501154",
+    appId: "1:933434501154:web:d9d27d35b035f00de5c27b"
   }
 
-  // initialize firebase
-  firebase.initializeApp(firebaseConfig)
+// initilaize firebase
+firebase.initializeApp(firebaseConfig)
 
-  // initialize services
-  const projectFirestore = firebase.firestore()
-
-  export { projectFirestore }
+// initilaize services
+const projectFirestore = firebase.firestore()
+const projectAuth = firebase.auth()
+const timestamp = firebase.firestore.Timestamp
+export { projectFirestore, projectAuth, timestamp } 

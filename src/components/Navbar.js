@@ -1,20 +1,23 @@
-import './Navbar.css'
-import { Link } from 'react-router-dom'
-import { useTheme } from '../hooks/useTheme' 
-import Searchbar from './Searchbar'
+import { Link } from "react-router-dom";
+import { useLogout } from '../hooks/useLogout'
+import { useAuthContext } from '../hooks/useAuthContext'
+import styles from './Navbar.module.css'
 
 
 export default function Navbar() {
-  const { color } = useTheme()
+  const { logout } = useLogout()
+  const { user } = useAuthContext()
+
   return (
-    <div className='navbar' style={{background: color}}>
-        <nav>
-            <Link to='/' className='brand'>
-                <h1>Cooking World</h1>
-            </Link>
-            <Searchbar />
-            <Link to='/create' class='create-recipe'>Create A New Recipe</Link>
-        </nav>
-    </div>
+    <nav className={styles.navbar}>
+        <ul>
+            <li className={styles.title}><Link to="/">FinanceTracker</Link></li>
+
+            {!user && <li><Link to='/login'>Login</Link></li>}
+            {!user && <li><Link to='/signup'>Signup</Link></li>}
+            {user && <li>hello, {user.displayName}</li>}
+            {user && <li> <button className='btn' onClick={logout}>Log Out</button></li>}
+        </ul>
+    </nav>
   )
 }
